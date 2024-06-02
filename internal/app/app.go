@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/GreekKeepers/golangBackend/config"
 	"github.com/GreekKeepers/golangBackend/httpserver"
-	"github.com/GreekKeepers/golangBackend/internal/config"
 	"github.com/GreekKeepers/golangBackend/internal/controller"
 	"github.com/GreekKeepers/golangBackend/internal/repo"
 	"github.com/GreekKeepers/golangBackend/internal/service"

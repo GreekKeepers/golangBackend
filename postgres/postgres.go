@@ -10,9 +10,7 @@ type Postgres struct {
 }
 
 func New(dsn string) (*Postgres, error) {
-	db, err := gorm.Open(gpg.New(gpg.Config{
-		DSN: dsn,
-	}), &gorm.Config{})
+	db, err := gorm.Open(gpg.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}

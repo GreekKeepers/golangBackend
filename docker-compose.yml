@@ -1,4 +1,4 @@
-version: "1.0"
+version: "3.3"
 services:
   # backend:
   #   build: ./
@@ -23,26 +23,26 @@ services:
       - 8181:8181
     networks:
       - greekkeepersnet
-    volumes:
-      - ./logs/:/Backend/logs/
-
+    # volumes:
+    #   - ./logs/:/Backend/logs/
   db:
     image: postgres:14.1-alpine
     container_name: bicas-db
     environment:
       - POSTGRES_USER=mgwdb
       - POSTGRES_PASSWORD=mgwdb
+      - POSTGRES_DB=mgwdb
       - APP_DB_USER=mgwdb
       - APP_DB_PASS=mgwdb
       - APP_DB_NAME=mgwdb
     ports:
-      - '5432:5432'
+      - '5434:5434'
     networks:
       - greekkeepersnet
-      #network_mode: "host"
+      # network_mode: "host"
       # volumes:
-      # - ./db-data/:/var/lib/postgresql/data
-      # - ./db_scheme/scheme.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      #   - ./db-data/:/var/lib/postgresql/data
+      #   - ./db_scheme/scheme.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
 networks:
   greekkeepersnet:

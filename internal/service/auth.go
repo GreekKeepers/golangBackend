@@ -30,16 +30,19 @@ func (s *AuthService) ValidateToken(tokenString string) error {
 		if !ok {
 			return nil, errors.New("invalid user id")
 		}
+		fmt.Println("userID", userID)
 
 		iat, ok := claims["iat"].(float64)
 		if !ok {
 			return nil, errors.New("invalid iat")
 		}
+		fmt.Println("iat", iat)
 
 		hashedPassword, err := s.r.GetHashedPassword(userID)
 		if err != nil {
 			return nil, err
 		}
+		fmt.Println("hashedPassword", hashedPassword)
 
 		salt, err := s.r.GetSeed(userID)
 		if err != nil {
@@ -49,6 +52,7 @@ func (s *AuthService) ValidateToken(tokenString string) error {
 		key := fmt.Sprintf("%s%s%d", salt, hashedPassword, int64(iat))
 		hash := hmac.New(sha256.New, []byte(key))
 		key = hex.EncodeToString(hash.Sum(nil))
+		fmt.Println("key", key)
 
 		return []byte(key), nil
 	})

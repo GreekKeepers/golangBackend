@@ -11,11 +11,12 @@ func New(handler *gin.Engine, l logger.Logger, services *service.Service) {
 	handler.Use(gin.Recovery())
 
 	h := handler.Group("/")
+	h.Use(authMiddleware(l, services.Auth))
 	{
 		h.GET("/", func(c *gin.Context) {
 			c.JSON(200, gin.H{
 				"message": "Hello World",
 			})
-		}).Use(authMiddleware(l, services.Auth))
+		})
 	}
 }

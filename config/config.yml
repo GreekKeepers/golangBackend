@@ -2,7 +2,7 @@ app:
   name: golangBackend
   version: 0.0.1
 
-server:
+http:
   port: 8181
 
 logger:
@@ -10,3 +10,4 @@ logger:
 
 postgres:
   pool_max: 2
+  url: postgres://mgwdb:mgwdb@localhost:5436/postgres?sslmode=disable
