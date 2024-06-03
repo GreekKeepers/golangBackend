@@ -9,7 +9,6 @@ import (
 )
 
 func authMiddleware(l logger.Logger, auth service.Auth) gin.HandlerFunc {
-	l.Info("authMiddleware")
 	return func(c *gin.Context) {
 		tokenString := extractTokenFromRequest(c)
 		l.Info("tokenString", tokenString)

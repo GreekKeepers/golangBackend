@@ -15,12 +15,12 @@ func NewAuthRepo(pg *postgres.Postgres) *AuthRepo {
 
 func (r *AuthRepo) GetHashedPassword(id int64) (string, error) {
 	var password string
-	err := r.db.Table("Users").Select("password").Where("id = ?", id).Row().Scan(&password)
+	err := r.db.Table("users").Select("password").Where("id = ?", id).Row().Scan(&password)
 	return password, err
 }
 
 func (r *AuthRepo) GetSeed(id int64) (string, error) {
 	var seed string
-	err := r.db.Table("UserSeed").Select("user_seed").Where("id = ?", id).Row().Scan(&seed)
+	err := r.db.Table("userseed").Select("user_seed").Where("id = ?", id).Row().Scan(&seed)
 	return seed, err
 }

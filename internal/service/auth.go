@@ -22,39 +22,39 @@ func NewAuth(r repo.Auth) *AuthService {
 	return &AuthService{r: r}
 }
 
-// access_token:"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJMb2NhbCIsInN1YiI6MTMyLCJleHAiOjE3MTczNDU4NzUsImlhdCI6MTcxNzM0NTI3NSwiYXVkIjoiQXV0aCJ9.rAwHyZ3ejHfuszYgr3eRV1QDNLN6rgmNyKbLJo_ESY4"
 func (s *AuthService) ValidateToken(tokenString string) error {
 	tokenParts := strings.Split(tokenString, ".")
 	if len(tokenParts) != 3 {
-		return fmt.Errorf("invalid token")
+		return fmt.Errorf("invalid token parts")
 	}
 	payloadBase64 := tokenParts[1]
 	payloadBytes, err := base64.RawURLEncoding.DecodeString(payloadBase64)
 	if err != nil {
 		return fmt.Errorf("failed to decode payload: %w", err)
 	}
+
 	var payload map[string]interface{}
 	err = json.Unmarshal(payloadBytes, &payload)
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal payload: %w", err)
 	}
 
-	userID, ok := payload["sub"].(int64)
-	if !ok {
-		return fmt.Errorf("invalid user id")
-	}
-
 	iat, ok := payload["iat"].(float64)
 	if !ok {
-		return fmt.Errorf("invalid iat")
+		return fmt.Errorf("missing or invalid iat")
 	}
 
-	hashedPassword, err := s.r.GetHashedPassword(userID)
+	userID, ok := payload["sub"].(float64)
+	if !ok {
+		return fmt.Errorf("missing or invalid sub (userID)")
+	}
+
+	hashedPassword, err := s.r.GetHashedPassword(int64(userID))
 	if err != nil {
 		return fmt.Errorf("failed to get hashed password: %w", err)
 	}
 
-	salt, err := s.r.GetSeed(userID)
+	salt, err := s.r.GetSeed(int64(userID))
 	if err != nil {
 		return fmt.Errorf("failed to get salt: %w", err)
 	}

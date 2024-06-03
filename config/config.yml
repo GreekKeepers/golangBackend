@@ -10,4 +10,4 @@ logger:
 
 postgres:
   pool_max: 2
-  url: postgres://mgwdb:mgwdb@localhost:5436/postgres?sslmode=disable
+  url: postgres://mgwdb:mgwdb@localhost:5436/mgwdb?sslmode=disable

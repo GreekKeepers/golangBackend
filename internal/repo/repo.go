@@ -7,7 +7,9 @@ type Repo struct {
 }
 
 func New(pg *postgres.Postgres) *Repo {
-	return &Repo{}
+	return &Repo{
+		Auth: NewAuthRepo(pg),
+	}
 }
 
 // repo interfaces

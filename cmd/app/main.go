@@ -11,7 +11,6 @@ func main() {
 	cfg, err := config.New()
 	if err != nil {
 		log.Panic(err)
-		// panic(err)
 	}
 
 	app.Run(cfg)
